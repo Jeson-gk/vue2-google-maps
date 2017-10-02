@@ -1,0 +1,59 @@
+<body>
+  <div id="root">
+    <google-map :center="{lat: 1.38, lng: 103.8}" :zoom="12" style="width: 100%; height: 500px">
+      <ground-overlay source="./overlay.png" :bounds="{
+            north: 1.502,
+            south: 1.185,
+            east: 104.0262,
+            west: 103.5998,
+        }" :opacity="0.5">
+      </ground-overlay>
+    </google-map>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.6/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.js"></script>
+  <script src="vue-google-maps.js"></script>
+
+  <script>
+    Vue.use(VueGoogleMaps, {
+      load: {
+        key: 'AIzaSyBzlLYISGjL_ovJwAehh6ydhB56fCCpPQw',
+        v: '3.26',
+      },
+      // Demonstrating how we can customize the name of the components
+      installComponents: false,
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      Vue.component('google-map', VueGoogleMaps.Map);
+      Vue.component('ground-overlay', Vue.extend({
+        render() {
+          return '';
+        },
+        mixins: [VueGoogleMaps.MapElementMixin],
+        props: ['source', 'bounds', 'opacity'],
+        created() {},
+        deferredReady: function() {
+          this.$overlay = new google.maps.GroundOverlay(
+            this.source,
+            this.bounds
+          );
+          this.$overlay.setOpacity(this.opacity);
+          this.$overlay.setMap(this.$map);
+        },
+        destroyed: function() {
+          this.$overlay.setMap(null);
+        },
+      }));
+
+      new Vue({
+        el: '#root',
+        data: {
+          place: '',
+        },
+      });
+    });
+  </script>
+
+</body>

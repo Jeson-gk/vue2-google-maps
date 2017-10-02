@@ -1,0 +1,71 @@
+<body>
+  <div id="root">
+    <h1>Bounding to a set of Lat-Lngs Example (#169)</h1>
+    <br/>
+
+    <button @click="generate">Generate and Bound to Lat Lngs</button>
+
+    <Gmap-Map style="width: 600px; height: 400px;" :zoom="1" :center="{lat: 0, lng: 0}"
+        ref="map">
+      <Gmap-Marker v-for="(marker, index) in markers"
+        :key="index"
+        :position="marker.latLng"
+        ></Gmap-Marker>
+    </Gmap-Map>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.0/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+<script src="vue-google-maps.js"></script>
+
+<script>
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBzlLYISGjL_ovJwAehh6ydhB56fCCpPQw',
+    libraries: 'places'
+  },
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  new Vue({
+    el: '#root',
+    data: {
+      markers: [],
+      place: null,
+    },
+    watch: {
+      markers(markers) {
+        if (markers.length > 2) {
+          const bounds = new google.maps.LatLngBounds()
+          for (let m of markers) {
+            bounds.extend(m.latLng)
+          }
+          this.$refs.map.$mapObject.fitBounds(bounds)
+        }
+      }
+    },
+    methods: {
+      generate() {
+        const spread = Math.random() + 0.001
+
+        this.center = {
+          lat: 1.38 + (Math.random() - 0.5) * spread,
+          lng: 103.8 + (Math.random() - 0.5) * spread,
+        }
+
+        this.markers = _.range(30)
+          .map(m => ({
+            latLng: {
+              lat: this.center.lat + (Math.random() - 0.5) * spread,
+              lng: this.center.lng + (Math.random() - 0.5) * spread,
+            }
+          }))
+      }
+    }
+  });
+});
+
+</script>
+
+</body>
