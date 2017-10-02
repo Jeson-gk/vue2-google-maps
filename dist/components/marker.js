@@ -101,6 +101,7 @@ exports.default = {
 
   created () {
     this.$markerDeferedPromiseResolver = null
+    this.$markerIsResoleved = false
     this.$markerDeferedPromise = new Promise((resolve) => {
       this.$markerDeferedPromiseResolver = resolve
     })
@@ -156,6 +157,7 @@ exports.default = {
       }
 
       this.$markerDeferedPromiseResolver()
+      this.$markerIsResoleved = true
     }
   }
 };
