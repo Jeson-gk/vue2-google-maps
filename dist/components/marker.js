@@ -132,7 +132,7 @@ exports.default = {
       var options = _lodash2.default.mapValues(props, function (value, prop) {
         return _this[prop];
       });
-      options.map = this.$map;
+      options.map = null;
 
       // search ancestors for cluster object
       var search = this.$findAncestor(function (ans) {
