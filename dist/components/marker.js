@@ -99,12 +99,12 @@ exports.default = {
   mixins: [_mapElementMixin2.default, _getPropsValuesMixin2.default],
   props: props,
 
-  created () {
+  created: function created() {
     this.$markerDeferedPromiseResolver = null
     this.$markerIsResoleved = false
-    this.$markerDeferedPromise = new Promise((resolve) => {
+    this.$markerDeferedPromise = new Promise(function (resolve) {
       this.$markerDeferedPromiseResolver = resolve
-    })
+    }.bind(this))
   },
 
   render: function render(h) {
