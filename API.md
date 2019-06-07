@@ -412,7 +412,7 @@ The Google Maps instance. Example usage:
 ```js
 google.maps.event.trigger(this.$refs.map.$mapObject, 'resize')
 ```
-##### `$mapCreated` : Promise<google.maps.Map>`
+##### `$mapCreated` : Promise<google.maps.Map>
 Promise resolved when the map has been created
 
 #### Methods
